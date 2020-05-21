@@ -15,7 +15,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  gkgkgkgkdk
   <build>
     <finalName>reservationpractice</finalName>
   </build>
