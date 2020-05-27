@@ -28,18 +28,7 @@ public class ProductApiController {
 		List<Product> items = productService.getProducts(categoryId, start);
 		
 		int totalCount = productService.getCount(categoryId);
-		int moreCount = totalCount / ProductService.LIMIT;
-		
-		if(totalCount % ProductService.LIMIT > 0) {
-			moreCount++;
-		}
-		
-		List<Integer> pageStartList = new ArrayList<>();
-		
-		for(int i=0; i<moreCount; i++) {
-			pageStartList.add(i*ProductService.LIMIT);
-		}
-		
+
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("items", items);

@@ -32,7 +32,7 @@ public class ProductDao {
 	
 	public List<Product> selectAll(Integer start, Integer limit, Integer categoryId) {
 		
-		//역시 예외처리를 하는게 더 깔끔하겠지?
+		//categoryId를 받아서 값을 처리하는데, categoryId가 제대로 들어오는지 여부를 Exception으로 하기엔 Junit Test에서 확인 가능한데도 Exception 처리를 해야하는 걸까?
 		Map<String, Integer> params = new HashMap<>();
 		params.put("categoryId", categoryId);
 		params.put("start", start);
