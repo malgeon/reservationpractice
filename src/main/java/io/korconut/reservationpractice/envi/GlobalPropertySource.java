@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @PropertySources({
-	@PropertySource( value = "file:C:/Users/N/eclipse-workspace/environment/src/main/resource/config.properties", ignoreResourceNotFound = true)
+	@PropertySource( value = "file:C:/Users/N/eclipse-workspace/environment/src/main/resource/projectcconfig.properties", ignoreResourceNotFound = true)
 })
  
 public class GlobalPropertySource {
