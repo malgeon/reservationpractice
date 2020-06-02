@@ -26,6 +26,7 @@ public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/css/**").addResourceLocations("/css/").setCachePeriod(31556926);
 		registry.addResourceHandler("/img/**").addResourceLocations("/img/").setCachePeriod(31556926);
 		registry.addResourceHandler("/js/**").addResourceLocations("/js/").setCachePeriod(31556926);
+		registry.addResourceHandler("/font/**").addResourceLocations("/font/").setCachePeriod(31556926);
 	}
 
 	@Override
@@ -33,13 +34,13 @@ public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter {
 		configurer.enable();
 	}
 	
-	/*
-	@Override
+	
+	@Override //메인화면!
 	public void addViewControllers(ViewControllerRegistry registry) {
 		System.out.println("addViewControllers가 호출됩니다.");
-		registry.addViewController("/").setViewName("index");
+		registry.addViewController("/").setViewName("mainpage");
 	}
-	*/
+	
 	
 	@Bean
 	public InternalResourceViewResolver getInternalResourceViewResolver() {

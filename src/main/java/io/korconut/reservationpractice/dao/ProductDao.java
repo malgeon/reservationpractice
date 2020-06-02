@@ -1,5 +1,6 @@
 package io.korconut.reservationpractice.dao;
 
+
 import static io.korconut.reservationpractice.dao.ProductDaoSqls.*;
 
 import java.util.Collections;
@@ -30,7 +31,7 @@ public class ProductDao {
 	}
 	
 	
-	public List<Product> selectAll(Integer start, Integer limit, Integer categoryId) {
+	public List<Product> selectByCategoryId(Integer start, Integer limit, Integer categoryId) {
 		
 		//categoryId를 받아서 값을 처리하는데, categoryId가 제대로 들어오는지 여부를 Exception으로 하기엔 Junit Test에서 확인 가능한데도 Exception 처리를 해야하는 걸까?
 		Map<String, Integer> params = new HashMap<>();
@@ -38,11 +39,26 @@ public class ProductDao {
 		params.put("start", start);
 		params.put("limit", limit);
 	
+		return jdbc.query(SELECT_PAGING_BY_CATEGORY_ID, params, rowMapper);
+	}
+	
+	public List<Product> selectAll(Integer start, Integer limit) {
+		
+		//categoryId를 받아서 값을 처리하는데, categoryId가 제대로 들어오는지 여부를 Exception으로 하기엔 Junit Test에서 확인 가능한데도 Exception 처리를 해야하는 걸까?
+		Map<String, Integer> params = new HashMap<>();
+		params.put("start", start);
+		params.put("limit", limit);
+	
 		return jdbc.query(SELECT_PAGING, params, rowMapper);
 	}
 	
-	public int selectCount(Integer categoryId) {
+	
+	public int selectCount() {
+		return jdbc.queryForObject(SELECT_COUNT, Collections.emptyMap(), Integer.class);
+	}
+	
+	public int selectCountByCategoryId(Integer categoryId) {
 		Map<String, ?> params = Collections.singletonMap("categoryId", categoryId);
-		return jdbc.queryForObject(SELECT_COUNT, params, Integer.class);
+		return jdbc.queryForObject(SELECT_COUNT_BY_CATEGORY_ID, params, Integer.class);
 	}
 }

@@ -20,7 +20,6 @@ import io.korconut.reservationpractice.dto.Category;
 public class CategoryDao {
 
 	private NamedParameterJdbcTemplate jdbc;
-	private SimpleJdbcInsert insertAction;
 	private RowMapper<Category> rowMapper = BeanPropertyRowMapper.newInstance(Category.class);
 	
 	public CategoryDao(DataSource dataSource) {

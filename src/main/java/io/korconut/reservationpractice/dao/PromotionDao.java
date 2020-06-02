@@ -18,7 +18,6 @@ import io.korconut.reservationpractice.dto.Promotion;
 @Repository
 public class PromotionDao {
 	private NamedParameterJdbcTemplate jdbc;
-	private SimpleJdbcInsert insertAction;
 	private RowMapper<Promotion> rowMapper = BeanPropertyRowMapper.newInstance(Promotion.class);
 	
 	

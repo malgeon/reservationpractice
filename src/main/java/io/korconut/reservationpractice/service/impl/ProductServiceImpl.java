@@ -27,7 +27,18 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	@Transactional // read only
 	public List<Product> getProducts(Integer categoryId, Integer start) {
-		List<Product> list = productDao.selectAll(start, ProductService.LIMIT, categoryId);
+		
+		List<Product> list;
+		/**
+		 * 전체 항목을 끌어와야 해서, 새로 카테고리 0을 만들고 0은 전체페이지롷 함.
+		 */
+		if(categoryId == 0) {
+			list = productDao.selectAll(start, ProductService.LIMIT);
+		}
+		else {
+			list = productDao.selectByCategoryId(start, ProductService.LIMIT, categoryId);
+		}
+		
 		return list;
 	}
 	
@@ -47,6 +58,11 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public int getCount(Integer categoryId) {
-		return productDao.selectCount(categoryId);
+		if (categoryId == 0) {
+			return productDao.selectCount();
+		}
+		else {
+			return productDao.selectCountByCategoryId(categoryId);
+		}
 	}
 }

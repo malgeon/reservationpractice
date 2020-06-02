@@ -24,12 +24,12 @@ public class ProductDaoTest {
 	
 	@Test
 	public void daoTest() {
-		list = productDao.selectAll(0, 1, 1);
+		list = productDao.selectAll(0, 1);
 		for(Product product : list) {
 			System.out.println(product);
 			
 		}
-		assertEquals(10, productDao.selectCount(1));
+		assertEquals(59, productDao.selectCount());
 	}
 
 }
