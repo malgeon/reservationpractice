@@ -38,7 +38,6 @@
 	                            <div class="container_visual">
 	                                <!-- 슬라이딩기능: 이미지 (type = 'th')를 순차적으로 노출 -->
 	                                <ul class="visual_img">
-	                                
 	                                </ul>
 	                            </div>
 	                            <span class="nxt_fix" style="display:none;"></span>
@@ -48,15 +47,11 @@
 	            </div>
 	            <div class="section_event_tab">
 	                <ul class="event_tab_lst tab_lst_min">
-	                    <!-- 리스트--><!-- 
-	                    <li class="item" data-category="0">
-	                        <a class="anchor actice"> <span>전체리스트</span></a>
-	                    </li>
-	                     -->
+	                    <!-- 리스트-->
 	                </ul>
 	            </div>
 	            <div class="section_event_lst">
-	                <p class="event_lst_txt">바로 예매 가능한 행사가 <span class="pink">10개</span> 있습니다 </p>
+	                <p class="event_lst_txt">바로 예매 가능한 행사가 <span class="pink">0개</span> 있습니다 </p>
 	                <div class="wrap_event_box">
 	                    <!-- 상품 박스 -->
 	                    <ul class="lst_event_box"></ul>
@@ -86,26 +81,36 @@
 	 
 	 
 	<script id="tabcontent" type="my-template">
-		<li class="item" data-category="{categoryId}">
-	    	<a class="anchor"> <span>{categoryName}</span></a>
-	    </li>
+	<li class="item" data-category="{categoryId}">
+    	<a class="anchor"> <span>{categoryName}</span></a>
+    </li>
 	</script>
-	<script id="prodcontent" type="my-template">
-		<li class = "item">
-			<a href="detail.html" class="item_book">
-				<div class="item_preview"> <img alt="{productDescription}" class="img_thumb" src="{productImageUrl}">                                    <span class="img_border"></span> </div>
-				<div class="event_txt">
-					<h4 class="event_txt_tit"> <span>{productDescription}</span> <small class="sm">{placeName}</small> </h4>
-					<p class="event_txt_dsc">{content}
-					</p>
-				</div>
-			</a>
-		</li>
-	</script>
-	<script id="listcontent" type="my-template">
-		<p class="event_lst_txt">바로 예매 가능한 행사가 <span class="pink">{totaCount}개</span> 있습니다 </p>
+	<script type="rv-template" id="itemList">
+	<li class="item">
+		<a href="detail.html?id={id}" class="item_book">
+			<div class="item_preview">
+				<img alt="{description}" class="img_thumb" src="{productImageUrl}">
+				<span class="img_border"></span>
+			</div>
+			<div class="event_txt">
+				<h4 class="event_txt_tit"> <span>{description}</span> <small class="sm">{placeName}</small> </h4>
+				<p class="event_txt_dsc">{content}</p>
+			</div>
+		</a>
+	</li>
+    </script>
+    <script type="rv-template" id="promotionItem">
+    <li class="item" style="background-image: url({productImageUrl});">
+       	<a href="/{id}/{productId}"> <span class="img_btm_border"></span> <span class="img_right_border"></span> <span class="img_bg_gra"></span>
+           	<div class="event_txt">
+				<h4 class="event_txt_tit"></h4>
+				<p class="event_txt_adr"></p>
+				<p class="event_txt_dsc"></p>
+			</div>
+		</a>
+	</li>
 	</script>
 	<script id="moretemplate" type="my-template">
-	    <button class="btn"><span>더보기</span></button>
+	<button class="btn"><span>더보기</span></button>
 	</script>
 </html>

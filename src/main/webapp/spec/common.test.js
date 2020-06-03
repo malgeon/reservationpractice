@@ -18,23 +18,37 @@ function productInit() {
 	
 }
 /*
- * 사실 tabInit은 jstl로 하면 될것 같은데, restAPI로 만들면서 이왕 전체를 나눠보자는 생각에 이렇게 만들었다.
- * 만들고 나니, pruductInit을 위해 tabInit이 필요한 상황에서 일부러 setTimeout를 쓸수밖에 없었고, 
+ * 사실 tabInit은 jstl로 하면 될것 같은데, restAPI로 만들면서 이왕 FE, BE를 나눠보자는 생각에 이렇게 만들었다.
+ * 만들고 나니, 데이터 가져오는 Ajax를 가진 함수들을 init으로 만들수 밖에 없었고, 
+ * 만든 Init들의 순서를 잡아주기 위해 setTimeout를 쓸수밖에 없게 되었다. ajax에서 데이터를 가져와야 다음 init이 실행되므로.
  * 이런 사례들이 중복되다 보면 굉장히 난잡해 질것 같았다.
  * 차라리 그냥 controller에서 model로 넘겨주면서 jstl을 사용하는게 나아 보인다.(이걸 서버사이드 렌더링이라고 하는걸까?)
+ * 아니면 model 객체를 넘겨주지 않고 jstl을 사용하는 다른 방법을 못찾았을수도.
  * */
 function tabInit() {
 	var url = prefixUrl + "categories";
     sendAjax(url, "list");
-	
+}
+
+function promotionInit() {
+	var url = prefixUrl + "promotions";
+    sendAjax(url, "promotion");
 }
 
 
 document.addEventListener("DOMContentLoaded", function() {
 	tabInit();
+	promotionInit();
 	setTimeout(() => {
-		productInit();
-	  },100);
+		productInit();//ajax에서 데이터를 가져와야 실행됨.
+	  },200); // tabinit에서 데이터를 안정적으로 가지고 오는 적절한 시간..
+});
+
+
+window.addEventListener("load", function() {
+	setTimeout(() => {
+		slideMove();//ajax에서 데이터를 가져와야 실행됨.
+	  },500);// promotioninit에서 데이터를 안정적으로 가지고 오는 적절한 시간..
 });
 
 
@@ -47,6 +61,9 @@ function sendAjax(url, type) {
         }
         if(type === "prod") {
         	makeProductTemp(data, initFlag);
+        }
+        if(type === "promotion") {
+        	makePromotionTemp(data);
         }
         	
     });
@@ -67,10 +84,6 @@ function makeListTemp(data) {
 	document.querySelector(".event_tab_lst").innerHTML = resultHTML;
 }
 
-function makeActive() {
-	
-}
-
 function changeClassName(node) {
 	if(!(typeof preNode == "undefined" || preNode == null)) {
 		preNode.firstElementChild.className = "anchor";
@@ -78,7 +91,6 @@ function changeClassName(node) {
 	node.firstElementChild.className = "anchor active";
 	preNode = node;
 }
-
 
 
 var tabmenu = document.querySelector(".event_tab_lst.tab_lst_min");
@@ -108,14 +120,22 @@ more.addEventListener("click", function (evt) {
 });
 
 
-
-
 function makePromotionTemp(data) {
+	var html = document.getElementById("promotionItem").innerHTML;
+	var resultHTML = "";
+	var len = data.items.length;
 	
+	for(var i=0; i<len; i++) {
+		resultHTML += html.replace("{productImageUrl}", "../reservationpractice/img/" + data.items[i].productImageUrl)
+						.replace("{id}", data.items[i].id)
+	                    .replace("{productId}", data.items[i].productId);
+	}
+	
+	document.querySelector(".visual_img").innerHTML = resultHTML;
 }
 
 function makeProductTemp(data, init) {
-	var html = document.getElementById("prodcontent").innerHTML;
+	var html = document.getElementById("itemList").innerHTML;
 	var resultHTML = "";
 	var parent = document.querySelector(".wrap_event_box");
 	var firstChild = parent.firstElementChild;
@@ -140,9 +160,10 @@ function makeProductTemp(data, init) {
 		else {
 			plusNode = secoundChild;
 		}
-		resultHTML = html.replace("{productDescription}", data.items[i].productDescription)
+		resultHTML = html.replace("{id}", data.items[i].productDescription)
+					.replace("{description}", data.items[i].productDescription)
 					.replace("{productImageUrl}", "../reservationpractice/img/"+ data.items[i].productImageUrl)
-					.replace("{productDescription}", data.items[i].productDescription)
+					.replace("{description}", data.items[i].productDescription)
 					.replace("{placeName}", data.items[i].placeName)
 					.replace("{content}", data.items[i].productContent);
 		plusNode.innerHTML += resultHTML;
@@ -161,4 +182,35 @@ function makeMoreTemp(flag) {﻿
 		parent.innerHTML += html;
 		moreFlag = 0;
 	}
+}
+
+function slideMove() {
+	var parent = document.querySelector(".container_visual .visual_img");
+	var firstChildClone = parent.firstElementChild.cloneNode(true);
+	parent.appendChild(firstChildClone);
+
+	const len = parent.childElementCount;
+
+	parent.style.cssText = "width:calc(100%*"+len+"); transition:1s";
+	var children = document.querySelectorAll(".container_visual .visual_img li");
+	for (var items of children) {
+		items.style.cssText += "width:calc(100%/"+len+");";
+	}
+
+	let pos = 0;
+
+	setInterval(function(){
+		parent.style.transition = '1s';
+		pos = (pos + 1) % len;
+		var tmp = pos * -100; 
+		parent.style.marginLeft = tmp+"%";
+		if(pos === len-1){
+		setTimeout(function(){
+			parent.style.transition = '0s';
+			parent.style.marginLeft = "0%";
+		}, 1201)
+		pos = 0;
+		
+		}
+	},2400);
 }
