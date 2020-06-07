@@ -2,7 +2,7 @@ package io.korconut.reservationpractice.dao;
 
 public class CategoryDaoSqls {
 	
-	public static final String SELECT_ALL = "\r\n" + 
+	public static final String SELECT_ALL =  
 			"SELECT " + 
 				"(SELECT COUNT(*) " + 
 				"FROM display_info " + 

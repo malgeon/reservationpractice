@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import io.korconut.reservationpractice.config.ApplicationConfig;
+import io.korconut.reservationpractice.dto.Category;
 import io.korconut.reservationpractice.dto.Product;
 
 @RunWith(SpringJUnit4ClassRunner.class)

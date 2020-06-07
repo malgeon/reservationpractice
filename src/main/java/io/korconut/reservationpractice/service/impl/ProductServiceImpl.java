@@ -7,10 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.korconut.reservationpractice.dao.CategoryDao;
+import io.korconut.reservationpractice.dao.ImageInfoDao;
 import io.korconut.reservationpractice.dao.ProductDao;
+import io.korconut.reservationpractice.dao.ProductPriceDao;
 import io.korconut.reservationpractice.dao.PromotionDao;
 import io.korconut.reservationpractice.dto.Category;
 import io.korconut.reservationpractice.dto.Product;
+import io.korconut.reservationpractice.dto.ProductImage;
+import io.korconut.reservationpractice.dto.ProductPrice;
 import io.korconut.reservationpractice.dto.Promotion;
 import io.korconut.reservationpractice.service.ProductService;
 
@@ -23,7 +27,11 @@ public class ProductServiceImpl implements ProductService {
 	CategoryDao categoryDao;
 	@Autowired
 	PromotionDao promotionDao;
-	
+	@Autowired
+	ImageInfoDao imageInfoDao;
+	@Autowired
+	ProductPriceDao productPriceDao;
+
 	@Override
 	@Transactional // read only
 	public List<Product> getProducts(Integer categoryId, Integer start) {
@@ -64,5 +72,19 @@ public class ProductServiceImpl implements ProductService {
 		else {
 			return productDao.selectCountByCategoryId(categoryId);
 		}
+	}
+	
+	@Override
+	@Transactional // read only
+	public List<ProductImage>getProductImages(Integer displayInfoId) {
+		List<ProductImage> list = imageInfoDao.selectProductImageAllByDisplayInfoId(displayInfoId);
+		return list;
+	}
+	
+	@Override
+	@Transactional // read only
+	public List<ProductPrice>getProductPrices(Integer displayInfoId) {
+		List<ProductPrice> list = productPriceDao.selectProductPriceAllByDisplayInfoId(displayInfoId);
+		return list;
 	}
 }

@@ -23,9 +23,10 @@ public class CategoryDaoTest {
 	
 	@Test
 	public void daoTest() {
+		
 		list = categoryDao.selectAll();
 		for(Category category : list) {
-			System.out.println(category);
+			System.out.println(category.getId());
 			
 		}
 	}
