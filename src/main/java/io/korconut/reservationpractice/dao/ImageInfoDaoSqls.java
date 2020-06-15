@@ -7,7 +7,7 @@ public class ImageInfoDaoSqls {
 			"FROM display_info " +
 			"INNER JOIN reservation_info ON display_info.id = reservation_info.display_info_id " +
 			"INNER JOIN reservation_user_comment ON reservation_info.id = reservation_user_comment.reservation_info_id " +
-			"INNER JOIN reservation_user_comment_image ON reservation_info.id = reservation_user_comment_image.reservation_info_id " +
+			"INNER JOIN reservation_user_comment_image ON reservation_user_comment.id = reservation_user_comment_image.reservation_user_comment_id " +
 			"INNER JOIN file_info ON reservation_user_comment_image.file_id = file_info.id " +
 			"WHERE display_info.id = :displayInfoId;";
 	

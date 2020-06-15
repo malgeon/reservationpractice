@@ -1,13 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:import url="http://localhost:8080/reservationpractice/categories" var="urlCategories" scope="page"/>
+<c:import url="http:/localhost:8080/reservationpractice/promotions" var="urlPromotions" scope="page"/>
+<!--
+	그냥 한번 해본 page 참고용으로 그냥 두었다.
+	jstl을 이용해 url로 json을 받아 자바스크립트 변수로 사용할수 있음을 확인하고 만들어 보았다.
+	ajax를 사용하지 않는 장점을 가지고는 있으나, 현재 웹사이트과 동작을 비교해 볼때, 현재 웹사이트는 DOMContentLoad와 동시 또는 전에 tab이 구성되는 것을 확인하였다.
+	아마도 DOMContentLoad와 동시에 구성이 되는 다른방법이 있는것 같지만, 도통 모르겠으니 넘어가겠다. (아마도 jstl parse?????) 
+ -->
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
-    	<meta name="description" content="네이버 예약, 네이버 예약이 연동된 곳 어디서나 바로 예약하고, 네이버 예약 홈(나의예약)에서 모두 관리할 수 있습니다.">
-    	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-    	<title>네이버 예약</title>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
 		<link href="../reservationpractice/css/style.css" rel="stylesheet">
 	</head>
 	<body>
@@ -75,7 +81,58 @@
 	            <span class="copyright">© NAVER Corp.</span>
 	        </div>
 	    </footer>
-	</body> 
+	</body>
+	
+	<script>
+	
+		function tabInit() {
+			makeListTemp(${urlCategories});
+		}
+	
+		function promotionInit() {
+			makePromotionTemp(${urlPromotions});
+			
+		}
+	
+		document.addEventListener("DOMContentLoaded", function() {
+			tabInit();
+			promotionInit();
+		});
+		
+		function makeListTemp(data) {
+			var html = document.getElementById("tabcontent").innerHTML;
+			var resultHTML = "";
+			var len = data.items.length;
+			
+			for(var i=0; i<len; i++) {
+			    resultHTML += html.replace("{categoryId}", data.items[i].id)
+			                    .replace("{categoryName}", data.items[i].name);
+			}
+			
+			document.querySelector(".event_tab_lst").innerHTML = resultHTML;
+		}
+		
+		function makePromotionTemp(data) {
+			var html = document.getElementById("promotionItem").innerHTML;
+			var resultHTML = "";
+			var len = data.items.length;
+			
+			for(var i=0; i<len; i++) {
+				resultHTML += html.replace("{productImageUrl}", "../reservationpractice/img/" + data.items[i].productImageUrl)
+								.replace("{id}", data.items[i].id)
+			                    .replace("{productId}", data.items[i].productId);
+			}
+			
+			document.querySelector(".visual_img").innerHTML = resultHTML;
+		}
+	
+	</script> 
+	<!-- 
+	<script type="text/javascript" src = "../reservationpractice/spec/common.test.js">
+	
+	</script>
+	 -->
+	 
 	<script id="tabcontent" type="my-template">
 	<li class="item" data-category="{categoryId}">
     	<a class="anchor"> <span>{categoryName}</span></a>
@@ -83,7 +140,7 @@
 	</script>
 	<script type="rv-template" id="itemList">
 	<li class="item">
-		<a href="detail?id={id}" class="item_book">
+		<a href="detail.html?id={id}" class="item_book">
 			<div class="item_preview">
 				<img alt="{description}" class="img_thumb" src="{productImageUrl}">
 				<span class="img_border"></span>
@@ -109,6 +166,4 @@
 	<script id="moretemplate" type="my-template">
 	<button class="btn"><span>더보기</span></button>
 	</script>
-	<script type="text/javascript" src = "../reservationpractice/spec/common.test.js"></script>
-	<script type="text/javascript" src = "../reservationpractice/spec/mainpage.test.js"></script>
 </html>
